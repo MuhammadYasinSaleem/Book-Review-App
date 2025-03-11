@@ -13,4 +13,3 @@ export const generateToken = (user, message, statusCode, res) => {
         token  // Send token in response
     });
 };
-//Middleware to Protect Routes (authMiddleware.js)
