@@ -3,6 +3,7 @@ import cors from "cors"
 import {config} from 'dotenv'
 import { dbConnection } from "./database/dbConnection.js"
 import router from "./routers/authRouter.js"
+import reviewRouter from "./routers/reviewRouter.js"
 import { errorMiddleware } from "./middleware/errorMiddleware.js"
 
 const app=express()
@@ -15,6 +16,7 @@ app.use(cors({
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 app.use("/user",router)
+app.use("/review", reviewRouter);
 dbConnection()
 app.use(errorMiddleware)
 export default app
