@@ -69,3 +69,43 @@ export const getAllBooks = async (req, res, next) => {
         next(new ErrorHandler("Failed to fetch books", 500));
     }
 };
+
+export const getBooksByAuthor = async (req, res, next) => {
+    try {
+        const { author } = req.params; // Extract author name from request params
+
+        const books = await Book.find({ author }); // Find books with matching author name
+
+        if (!books.length) {
+            return next(new ErrorHandler("No books found for this author", 404));
+        }
+
+        res.status(200).json({
+            success: true,
+            count: books.length,
+            books,
+        });
+    } catch (error) {
+        next(new ErrorHandler("Failed to fetch books by author", 500));
+    }
+};
+
+export const getBooksByTitle = async (req, res, next) => {
+    try {
+        const { title } = req.params; // Extract title from request params
+
+        const books = await Book.find({ title: { $regex: title, $options: "i" } }); // Case-insensitive search
+
+        if (!books.length) {
+            return next(new ErrorHandler("No books found with this title", 404));
+        }
+
+        res.status(200).json({
+            success: true,
+            count: books.length,
+            books,
+        });
+    } catch (error) {
+        next(new ErrorHandler("Failed to fetch books by title", 500));
+    }
+};
