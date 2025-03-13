@@ -55,3 +55,17 @@ export const deleteBook = async (req, res, next) => {
         next(error);
     }
 };
+
+
+export const getAllBooks = async (req, res, next) => {
+    try {
+        const books = await Book.find(); // Fetch all books
+        res.status(200).json({
+            success: true,
+            count: books.length,
+            books
+        });
+    } catch (error) {
+        next(new ErrorHandler("Failed to fetch books", 500));
+    }
+};
